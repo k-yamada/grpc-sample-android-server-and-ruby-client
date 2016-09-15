@@ -49,6 +49,7 @@ import io.grpc.examples.helloworld.GreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +60,7 @@ public class HelloworldActivity extends ActionBarActivity {
     private EditText mPortEdit;
     private EditText mMessageEdit;
     private TextView mResultText;
+    private HelloWorldServer mServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,14 @@ public class HelloworldActivity extends ActionBarActivity {
         mMessageEdit = (EditText) findViewById(R.id.message_edit_text);
         mResultText = (TextView) findViewById(R.id.grpc_response_text);
         mResultText.setMovementMethod(new ScrollingMovementMethod());
+
+        // For debug
+//        mServer = new HelloWorldServer();
+//        try {
+//            mServer.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void sendMessage(View view) {

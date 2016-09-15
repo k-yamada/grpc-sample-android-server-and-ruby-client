@@ -11,7 +11,9 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -22,6 +24,17 @@ android {
         disable 'InvalidPackage', 'HardcodedText'
         textReport true
         textOutput "stdout"
+    }
+
+    dexOptions {
+        preDexLibraries false
+        javaMaxHeapSize "2g" // ヒープの最大を 2GB にする
+    }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+        exclude 'META-INF/services/io.grpc.ManagedChannelProvider'
     }
 }
 
@@ -51,10 +64,12 @@ protobuf {
 }
 
 dependencies {
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'io.grpc:grpc-netty:1.0.0'
+    //compile 'com.squareup.okhttp:okhttp:2.2.0'
     // You need to build grpc-java to obtain these libraries below.
     compile 'io.grpc:grpc-okhttp:1.0.0'
     // CURRENT_GRPC_VERSION

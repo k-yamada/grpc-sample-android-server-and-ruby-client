@@ -41,15 +41,14 @@ require 'grpc'
 require 'helloworld_services_pb'
 
 PORT = 50051
-ANDROID_PACKAGE = "io.grpc.android.helloworldexample"
+ANDROID_PACKAGE = "io.grpc.helloworldexample"
 ANDROID_HELLO_WORLD_CLASS_PATH = ANDROID_PACKAGE + ".HelloWorldServer"
 
 def start_service(serial_no)
-  apk_path = `adb -s #{serial_no} shell pm path #{ANDROID_PACKAGE} | tr -d '\\r' | awk -F: '{print $2}'`.chomp
+  apk_path = `adb -s #{serial_no} shell pm path #{ANDROID_PACKAGE} | tr -d '\r' | cut -d: -f 2`.chomp
   raise "Can't get the apk path" unless apk_path =~ /apk/
   `adb -s #{serial_no} shell export CLASSPATH=#{apk_path}\\; exec app_process /system/bin #{ANDROID_HELLO_WORLD_CLASS_PATH}`
   `adb -s #{serial_no} forward tcp:#{PORT} tcp:#{PORT}`
-  sleep 1 # wait for port forwarding
 end
 
 def main
@@ -63,8 +62,8 @@ def main
 
   message = stub.say_hello(Helloworld::HelloRequest.new(name: user)).message
   p "Greeting: #{message}"
-  message = stub.say_hello_again(Helloworld::HelloRequest.new(name: user)).message
-  p "Greeting: #{message}"
+  #message = stub.say_hello_again(Helloworld::HelloRequest.new(name: user)).message
+  #p "Greeting: #{message}"
 end
 
 main
