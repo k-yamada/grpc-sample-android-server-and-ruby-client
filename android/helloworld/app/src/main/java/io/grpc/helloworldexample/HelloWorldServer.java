@@ -37,9 +37,9 @@ public class HelloWorldServer {
             @Override
             public void run() {
                 // Use stderr here since the logger may have been reset by its JVM shutdown hook.
-                System.err.println("*** shutting down gRPC server since JVM is shutting down");
+                Log.e(TAG, "*** shutting down gRPC server since JVM is shutting down");
                 HelloWorldServer.this.stop();
-                System.err.println("*** server shut down");
+                Log.e(TAG, "*** server shut down");
             }
         });
     }
@@ -68,7 +68,7 @@ public class HelloWorldServer {
             server.start();
             server.blockUntilShutdown();
         } catch (Exception e) {
-            Log.d(TAG, "error:" + e.getMessage());
+            Log.e(TAG, "error:" + e.getMessage());
         }
     }
 

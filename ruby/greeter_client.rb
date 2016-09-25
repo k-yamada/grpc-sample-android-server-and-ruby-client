@@ -47,8 +47,8 @@ ANDROID_HELLO_WORLD_CLASS_PATH = ANDROID_PACKAGE + ".HelloWorldServer"
 def start_service(serial_no)
   apk_path = `adb -s #{serial_no} shell pm path #{ANDROID_PACKAGE} | tr -d '\r' | cut -d: -f 2`.chomp
   raise "Can't get the apk path" unless apk_path =~ /apk/
-  `adb -s #{serial_no} shell export CLASSPATH=#{apk_path}\\; exec app_process /system/bin #{ANDROID_HELLO_WORLD_CLASS_PATH}`
-  `adb -s #{serial_no} forward tcp:#{PORT} tcp:#{PORT}`
+  p spawn("adb -s #{serial_no} shell export CLASSPATH=#{apk_path}\\; exec app_process /system/bin #{ANDROID_HELLO_WORLD_CLASS_PATH}")
+  p `adb -s #{serial_no} forward tcp:#{PORT} tcp:#{PORT}`
 end
 
 def main
